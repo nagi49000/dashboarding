@@ -19,7 +19,7 @@ jobs:
     - name: docker streamlit build
       working-directory: ./services/streamlit/
       run: |
-        docker-compose build
+        docker-compose build streamlit-test
     - name: run streamlist image in container
       working-directory: ./services/streamlit/
       run: |

@@ -1,7 +1,14 @@
 version: "3.7"
 
 services:
+  streamlit-test:
+    build:
+      context: .
+      target: tester
+
   streamlit-app:
-    build: .
+    build:
+      context: .
+      target: prod
     ports:
       - 8080:8051
