@@ -1,8 +1,8 @@
 FROM python:3.12.1-slim AS builder
 
 RUN apt-get update && \
-    # curl for healthcheck, gcc for duckdb pip install :-(
-    apt-get install -y curl gcc g++ htop && \
+    # curl for healthcheck
+    apt-get install -y curl htop && \
     rm -rf /var/lib/apt/lists/* && \
     useradd -ms /bin/bash appuser
 
