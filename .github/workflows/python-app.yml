@@ -1,0 +1,29 @@
+name: Python application
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: docker streamlit build
+      working-directory: ./services/streamlit/
+      run: |
+        docker-compose build test
+    - name: run streamlist image in container
+      working-directory: ./services/streamlit/
+      run: |
+        docker-compose up --build --detach
+        sleep 1
+        curl http://localhost:8080
+        docker-compose down
