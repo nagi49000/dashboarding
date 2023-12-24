@@ -20,7 +20,9 @@ FROM builder AS tester
 COPY --chown=appuser:appuser requirements-test.txt requirements-test.txt
 RUN pip install -r requirements-test.txt
 COPY --chown=appuser:appuser test test
-RUN python -m pytest
+RUN python -m flake8 && \
+    python -m black --check . && \
+    python -m pytest --cov=./app  --cov-report=term-missing
 
 FROM builder AS prod
 
