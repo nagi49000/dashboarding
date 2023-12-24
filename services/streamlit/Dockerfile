@@ -1,21 +1,31 @@
-FROM python:3.12.1-slim
+FROM python:3.12.1-slim AS builder
 
 RUN apt-get update && \
-    apt-get install -y curl && \
+    # curl for healthcheck, gcc for duckdb pip install :-(
+    apt-get install -y curl gcc g++ htop && \
     rm -rf /var/lib/apt/lists/* && \
     useradd -ms /bin/bash appuser
 
 WORKDIR /build
 
-COPY app/requirements.txt ./
+COPY requirements.txt ./
 RUN pip install -U pip && \
     pip install -r requirements.txt
 
 WORKDIR /home/appuser
 COPY --chown=appuser:appuser app app
 
-WORKDIR /home/appuser/app
+FROM builder AS tester
+
+COPY --chown=appuser:appuser requirements-test.txt requirements-test.txt
+RUN pip install -r requirements-test.txt
+COPY --chown=appuser:appuser test test
+RUN python -m pytest
+
+FROM builder AS prod
+
 USER appuser
+WORKDIR /home/appuser/app
 
 HEALTHCHECK CMD curl --fail http://localhost:8051/_stcore/health
 
