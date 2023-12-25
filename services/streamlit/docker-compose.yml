@@ -11,4 +11,4 @@ services:
       context: .
       target: prod
     ports:
-      - 8080:8051
+      - 8080:8501

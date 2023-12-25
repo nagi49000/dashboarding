@@ -14,21 +14,21 @@ RUN pip install -U pip && \
 
 WORKDIR /home/appuser
 COPY --chown=appuser:appuser app app
+COPY --chown=appuser:appuser run_app.py run_app.py
 
 FROM builder AS tester
 
 COPY --chown=appuser:appuser requirements-test.txt requirements-test.txt
 RUN pip install -r requirements-test.txt
 COPY --chown=appuser:appuser test test
-RUN python -m flake8 && \
+RUN python -m flake8 --max-line-length=120 && \
     python -m black --check . && \
     python -m pytest --cov=./app  --cov-report=term-missing
 
 FROM builder AS prod
 
 USER appuser
-WORKDIR /home/appuser/app
 
-HEALTHCHECK CMD curl --fail http://localhost:8051/_stcore/health
+HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
 
-CMD python -m streamlit run app.py
+CMD python -m streamlit run run_app.py
