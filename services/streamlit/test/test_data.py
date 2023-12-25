@@ -1,4 +1,4 @@
-from app.data import get_data
+from data import get_data
 
 
 def test_run_import():
