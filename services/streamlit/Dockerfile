@@ -15,6 +15,7 @@ RUN pip install -U pip && \
 WORKDIR /home/appuser
 COPY --chown=appuser:appuser app app
 COPY --chown=appuser:appuser run_app.py run_app.py
+COPY --chown=appuser:appuser .streamlit .streamlit
 
 FROM builder AS tester
 
