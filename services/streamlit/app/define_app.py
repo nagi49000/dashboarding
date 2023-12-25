@@ -1,8 +1,8 @@
 import streamlit as st
-from data import get_data
+from app.data import get_data
 
 
-def run_app():
+def app():
     st.session_state.n_new_coords = "10"
 
     def click_button():
@@ -18,7 +18,3 @@ def run_app():
         "Click to update coords", on_click=click_button, key="update_coords_button"
     )
     st.map(st.session_state.coords)
-
-
-if __name__ == "__main__":
-    run_app()

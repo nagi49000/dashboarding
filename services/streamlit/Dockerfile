@@ -14,6 +14,7 @@ RUN pip install -U pip && \
 
 WORKDIR /home/appuser
 COPY --chown=appuser:appuser app app
+COPY --chown=appuser:appuser run_app.py run_app.py
 
 FROM builder AS tester
 
@@ -27,8 +28,7 @@ RUN python -m flake8 --max-line-length=120 && \
 FROM builder AS prod
 
 USER appuser
-WORKDIR /home/appuser/app
 
-HEALTHCHECK CMD curl --fail http://localhost:8051/_stcore/health
+HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
 
-CMD python -m streamlit run app.py
+CMD python -m streamlit run run_app.py
