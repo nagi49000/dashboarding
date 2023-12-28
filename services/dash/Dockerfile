@@ -19,6 +19,6 @@ FROM builder AS prod
 
 USER appuser
 
-# HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
+HEALTHCHECK CMD curl --fail http://localhost:8050/ping
 
 CMD gunicorn app.run_app:server --bind 0.0.0.0:8050 --log-level DEBUG
