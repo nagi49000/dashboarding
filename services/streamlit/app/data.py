@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 
 
-def get_data(n_results=10):
+def get_data(n_results: int = 10) -> pd.DataFrame:
     resp = requests.get(f"https://randomuser.me/api/?results={n_results}")
     if not resp.ok:
         raise RuntimeError(

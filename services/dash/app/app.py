@@ -2,10 +2,11 @@ import dash
 import flask
 import json
 import plotly.express as px
+import plotly.graph_objects as po
 from app.data import get_data
 
 
-def get_app():
+def get_app() -> dash.Dash:
     app = dash.Dash(__name__, server=flask.Flask(__name__))
 
     @app.server.route("/ping")
@@ -36,7 +37,7 @@ def get_app():
     dash.Input("button-update-coords", "n_clicks"),
     dash.State("input-n-coords", "value"),
 )
-def update_graph(_, value):
+def update_graph(_, value: int) -> po.Figure:
     df = get_data(n_results=value)
     fig = px.scatter_geo(df, lat="lat", lon="lon")
     return fig
