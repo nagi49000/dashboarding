@@ -22,7 +22,25 @@ RUN pip install -r requirements-test.txt
 COPY --chown=appuser:appuser test test
 RUN python -m flake8 --max-line-length=120 && \
     python -m black --check . && \
-    python -m pytest --cov=./app  --cov-report=term-missing
+    python -m pytest --cov=./app --cov-report=term-missing --ignore test/test_app_chromedriver.py
+
+FROM tester AS chromedriver-tester
+
+RUN apt-get update && \
+    # install a load of stuff for installing a webdriver
+    apt-get install -y jq unzip gnupg wget && \
+    apt-get update && \
+    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list && \
+    apt-get update && \
+    apt-get install -y google-chrome-stable && \
+    # get latest version of webdriver
+    curl --silent https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json | jq '.channels.Stable.downloads.chromedriver[].url' | grep 'linux' > chromedriver-latest-url.txt && \
+    # dl and install webdriver
+    xargs -n 1 curl -o chromedriver-latest.zip < chromedriver-latest-url.txt && \
+    unzip chromedriver-latest.zip && \
+    install -m 755 chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+RUN python -m pytest --cov=./app --cov-report=term-missing --headless
 
 FROM builder AS prod
 
