@@ -22,14 +22,19 @@ def get_app(server=True):
                 min=1,
                 placeholder="number of coords to fetch",
             ),
+            dash.html.Button(
+                "Update", id="button-update-coords"
+            ),
             dash.dcc.Graph(id="graph-content"),
         ]
     )
 
     @dash.callback(
-        dash.Output("graph-content", "figure"), dash.Input("input-n-coords", "value")
+        dash.Output("graph-content", "figure"),
+        dash.Input("button-update-coords", "n_clicks"),
+        dash.State("input-n-coords", "value")
     )
-    def update_graph(value):
+    def update_graph(n_clicks, value):
         df = get_data(n_results=value)
         fig = px.scatter_geo(df, lat="lat", lon="lon")
         return fig
