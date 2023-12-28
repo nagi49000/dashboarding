@@ -15,10 +15,19 @@ RUN pip install -U pip && \
 WORKDIR /home/appuser
 COPY --chown=appuser:appuser app app
 
+FROM builder AS tester
+
+COPY --chown=appuser:appuser requirements-test.txt requirements-test.txt
+RUN pip install -r requirements-test.txt
+COPY --chown=appuser:appuser test test
+RUN python -m flake8 --max-line-length=120 && \
+    python -m black --check . && \
+    python -m pytest --cov=./app  --cov-report=term-missing
+
 FROM builder AS prod
 
 USER appuser
 
 HEALTHCHECK CMD curl --fail http://localhost:8050/ping
 
-CMD gunicorn app.run_app:server --bind 0.0.0.0:8050 --log-level DEBUG
+CMD gunicorn app.run_app:server --workers 4 --bind 0.0.0.0:8050 --log-level DEBUG
