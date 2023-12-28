@@ -21,4 +21,4 @@ USER appuser
 
 # HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
 
-CMD gunicorn app.min_app:server --bind 0.0.0.0:8050 --log-level DEBUG
+CMD gunicorn app.run_app:server --bind 0.0.0.0:8050 --log-level DEBUG
