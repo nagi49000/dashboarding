@@ -29,14 +29,17 @@ def get_app() -> dash.Dash:
         ]
     )
 
+    @app.callback(
+        dash.Output("graph-content", "figure"),
+        dash.Input("button-update-coords", "n_clicks"),
+        dash.State("input-n-coords", "value"),
+    )
+    def update_graph_callback(n_clicks, value):
+        return update_graph(n_clicks, value)
+
     return app
 
 
-@dash.callback(
-    dash.Output("graph-content", "figure"),
-    dash.Input("button-update-coords", "n_clicks"),
-    dash.State("input-n-coords", "value"),
-)
 def update_graph(_, value: int) -> po.Figure:
     df = get_data(n_results=value)
     fig = px.scatter_geo(df, lat="lat", lon="lon")
