@@ -20,8 +20,19 @@ jobs:
       working-directory: ./services/streamlit/
       run: |
         docker-compose build streamlit-test
-    - name: run streamlist image in container
+    - name: run streamlit image in container
       working-directory: ./services/streamlit/
+      run: |
+        docker-compose up --build --detach
+        sleep 1
+        curl http://localhost:8080
+        docker-compose down
+    - name: docker dash build
+      working-directory: ./services/dash/
+      run: |
+        docker-compose build dash-test
+    - name: run dash image in container
+      working-directory: ./services/dash/
       run: |
         docker-compose up --build --detach
         sleep 1
