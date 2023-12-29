@@ -29,6 +29,8 @@ def get_app() -> dash.Dash:
         ]
     )
 
+    # define as app.callback rather than dash.callback due to a bug in dash.testing
+    # that clears down all callbacks not attached to an app
     @app.callback(
         dash.Output("graph-content", "figure"),
         dash.Input("button-update-coords", "n_clicks"),
