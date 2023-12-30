@@ -31,6 +31,8 @@ def get_app() -> dash.Dash:
 
     # define as app.callback rather than dash.callback due to a bug in dash.testing
     # that clears down all callbacks not attached to an app
+    # the callback decorator implicitly passes in all vars (that are not Output)
+    # to the function-to-decorate
     @app.callback(
         dash.Output("graph-content", "figure"),
         dash.Input("button-update-coords", "n_clicks"),
