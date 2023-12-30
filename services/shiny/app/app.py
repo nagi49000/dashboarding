@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import geopandas as gpd
+from matplotlib.axes import Axes
 from shiny import render, ui
 from .data import get_data
 
@@ -8,7 +10,7 @@ def get_app_ui():
 
         #  Add Inputs with ui.input_*() functions
         ui.input_slider(
-            "n", "Number of coordinates", 1, 100, 20
+            "n", "Number of coordinates", 1, 100, 5
         ),
         # Add Outputs with ui.ouput_*() functions
         ui.output_plot("map_with_coords")
@@ -25,9 +27,11 @@ def server(input, output, session):
         return get_map_with_coords(input.n())
 
 
-def get_map_with_coords(n_coords: int):
+def get_map_with_coords(n_coords: int) -> Axes:
     df = get_data(n_results=n_coords)
+    worldmap = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
     fig, ax = plt.subplots()
+    worldmap.plot(color="lightgrey", ax=ax)
     plt.scatter(df["lon"], df["lat"])
     plt.xlim([-180, 180])
     plt.ylim([-90, 90])
