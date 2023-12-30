@@ -42,6 +42,4 @@ FROM builder AS prod
 
 USER appuser
 
-HEALTHCHECK CMD curl --fail http://localhost:8050/ping
-
 CMD gunicorn app.run_app:server --workers 4 --bind 0.0.0.0:8050 --log-level DEBUG

@@ -36,13 +36,13 @@ def get_app() -> dash.Dash:
         dash.Input("button-update-coords", "n_clicks"),
         dash.State("input-n-coords", "value"),
     )
-    def update_graph_callback(n_clicks, value):
-        return update_graph(n_clicks, value)
+    def update_graph_callback(_, value):
+        return update_graph(value)
 
     return app
 
 
-def update_graph(_, value: int) -> po.Figure:
-    df = get_data(n_results=value)
+def update_graph(n_coord: int) -> po.Figure:
+    df = get_data(n_results=n_coord)
     fig = px.scatter_geo(df, lat="lat", lon="lon")
     return fig

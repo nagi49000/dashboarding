@@ -12,3 +12,5 @@ services:
       target: prod
     ports:
       - 8080:8050
+    healthcheck:
+      test: "curl --fail http://localhost:8050/ping"
