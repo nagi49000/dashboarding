@@ -1,6 +1,11 @@
 version: "3.7"
 
 services:
+  shiny-test:
+    build:
+      context: .
+      target: tester
+
   shiny-app:
     build:
       context: .

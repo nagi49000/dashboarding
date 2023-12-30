@@ -7,13 +7,10 @@ from .data import get_data
 
 def get_app_ui():
     app_ui = ui.page_fluid(  # Layout the UI with Layout Functions
-
         #  Add Inputs with ui.input_*() functions
-        ui.input_slider(
-            "n", "Number of coordinates", 1, 100, 5
-        ),
+        ui.input_slider("n", "Number of coordinates", 1, 100, 5),
         # Add Outputs with ui.ouput_*() functions
-        ui.output_plot("map_with_coords")
+        ui.output_plot("map_with_coords"),
     )
     return app_ui
 
