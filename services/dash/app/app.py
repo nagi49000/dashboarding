@@ -31,18 +31,20 @@ def get_app() -> dash.Dash:
 
     # define as app.callback rather than dash.callback due to a bug in dash.testing
     # that clears down all callbacks not attached to an app
+    # the callback decorator implicitly passes in all vars (that are not Output)
+    # to the function-to-decorate
     @app.callback(
         dash.Output("graph-content", "figure"),
         dash.Input("button-update-coords", "n_clicks"),
         dash.State("input-n-coords", "value"),
     )
-    def update_graph_callback(n_clicks, value):
-        return update_graph(n_clicks, value)
+    def update_graph_callback(_, value):
+        return update_graph(value)
 
     return app
 
 
-def update_graph(_, value: int) -> po.Figure:
-    df = get_data(n_results=value)
+def update_graph(n_coord: int) -> po.Figure:
+    df = get_data(n_results=n_coord)
     fig = px.scatter_geo(df, lat="lat", lon="lon")
     return fig

@@ -15,7 +15,7 @@ def test_ping(client):
 
 def test_update_graph():
     n_coord = 23
-    fig = update_graph(None, n_coord)
+    fig = update_graph(n_coord)
     assert len(fig.data[0].lat) == n_coord
     for lat in fig.data[0].lat:
         assert -90.0 <= lat <= 90.0
