@@ -30,6 +30,4 @@ FROM builder AS prod
 
 USER appuser
 
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
-
 CMD python -m streamlit run run_app.py

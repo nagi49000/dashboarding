@@ -12,3 +12,5 @@ services:
       target: prod
     ports:
       - 8080:8501
+    healthcheck:
+      test: "curl --fail http://localhost:8501/_stcore/health"
