@@ -22,7 +22,7 @@ RUN pip install -r requirements-test.txt
 COPY --chown=appuser:appuser test test
 RUN python -m flake8 --max-line-length=120 && \
     python -m black --check . && \
-    python -m pytest --cov=./app  --cov-report=term-missing
+    python -m pytest -s --cov=./app  --cov-report=term-missing
 
 FROM builder AS prod
 
