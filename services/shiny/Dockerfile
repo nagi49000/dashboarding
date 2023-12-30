@@ -21,4 +21,4 @@ USER appuser
 
 # HEALTHCHECK CMD curl --fail http://localhost:8050/ping
 
-CMD gunicorn -k uvicorn.workers.UvicornWorker app.min_app:app --workers 1 --bind 0.0.0.0:3838 --log-level DEBUG
+CMD gunicorn -k uvicorn.workers.UvicornWorker app.run_app:app --workers 1 --bind 0.0.0.0:3838 --log-level DEBUG
