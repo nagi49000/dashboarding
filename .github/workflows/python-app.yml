@@ -38,3 +38,14 @@ jobs:
         sleep 1
         curl http://localhost:8080
         docker-compose down
+    - name: docker shiny build
+      working-directory: ./services/shiny/
+      run: |
+        docker-compose build shiny-test
+    - name: run shiny image in container
+      working-directory: ./services/shiny/
+      run: |
+        docker-compose up --build --detach
+        sleep 1
+        curl http://localhost:8080
+        docker-compose down
