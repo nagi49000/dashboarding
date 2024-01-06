@@ -40,12 +40,12 @@ variable "web_app_name" {
   description = "Web App Name - used in URI of web app"
 }
 
-variable docker_image {
+variable "docker_image" {
   type = string
 }
 
-variable docker_tag {
-  type = string
+variable "docker_tag" {
+  type    = string
   default = "latest"
 }
 
@@ -58,5 +58,9 @@ variable "docker_reg_username" {
 }
 
 variable "docker_reg_password" {
+  type = string
+}
+
+variable "healthcheck_endpoint" {
   type = string
 }
