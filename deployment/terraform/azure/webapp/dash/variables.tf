@@ -37,30 +37,36 @@ variable "web_app_pricing_plan" {
 
 variable "web_app_name" {
   type        = string
-  description = "Web App Name - used in URI of web app"
+  description = "Web App Name - used in URI of web app (as the bottom level domain name)"
 }
 
 variable "docker_image" {
-  type = string
+  type        = string
+  description = "name of the docker image to use in the web app - without tag"
 }
 
 variable "docker_tag" {
-  type    = string
-  default = "latest"
+  type        = string
+  default     = "latest"
+  description = "tag of the docker image to use in the web app"
 }
 
 variable "docker_reg_url" {
-  type = string
+  type        = string
+  description = "docker registry to pull image from"
 }
 
 variable "docker_reg_username" {
-  type = string
+  type        = string
+  description = "username to use for docker login into docker registry"
 }
 
 variable "docker_reg_password" {
-  type = string
+  type        = string
+  description = "password to use for docker login into docker registry"
 }
 
 variable "healthcheck_endpoint" {
-  type = string
+  type        = string
+  description = "endpoint on app to use for healthcheck - starts with /"
 }
