@@ -55,9 +55,59 @@ resource "azurerm_linux_web_app" "web_app" {
     }
   }
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   # no idea why WEBSITES_ENABLE_APP_SERVICE_STORAGE is needed, but inside the
   # container Python module import errors occur without it
   app_settings = {
     WEBSITES_ENABLE_APP_SERVICE_STORAGE = false
+    TEST_VAULT                          = "@Microsoft.KeyVault(VaultName=${var.web_app_name}keyvault;SecretName=secretsauce)"
   }
+}
+
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_key_vault" "web_app_vault" {
+  name                          = "${var.web_app_name}keyvault"
+  location                      = var.location
+  resource_group_name           = var.resource_group_name
+  enabled_for_disk_encryption   = true
+  tenant_id                     = var.tenant_id
+  soft_delete_retention_days    = 7
+  purge_protection_enabled      = false
+  public_network_access_enabled = true
+
+  sku_name = "standard"
+
+  access_policy {
+    tenant_id = var.tenant_id
+    object_id = azurerm_linux_web_app.web_app.identity[0].principal_id
+
+    key_permissions = [
+      "Get",
+    ]
+
+    secret_permissions = [
+      "Get",
+    ]
+
+    storage_permissions = [
+      "Get",
+    ]
+  }
+
+  tags = merge(
+    local.common_tags,
+    {
+      "name" : "${var.web_app_name}keyvault"
+    }
+  )
+}
+
+resource "azurerm_key_vault_secret" "web_app_secret" {
+  name         = "secretsauce"
+  value        = "szechuan"
+  key_vault_id = azurerm_key_vault.web_app_vault.id
 }

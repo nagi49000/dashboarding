@@ -37,7 +37,7 @@ variable "web_app_pricing_plan" {
 
 variable "web_app_name" {
   type        = string
-  description = "Web App Name - used in URI of web app (as the bottom level domain name)"
+  description = "Web App Name - used in URI of web app (as the bottom level domain name) and various resource names (so no spaces or special chars)"
 }
 
 variable "docker_image" {
