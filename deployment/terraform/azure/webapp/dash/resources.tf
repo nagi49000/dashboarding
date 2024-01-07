@@ -78,8 +78,16 @@ resource "azurerm_key_vault" "web_app_vault" {
   soft_delete_retention_days    = 7
   purge_protection_enabled      = false
   public_network_access_enabled = true
+  sku_name                      = "standard"
 
-  sku_name = "standard"
+  # combine the public outbound ips of the web app to the user provided ips
+  # TODO really should plumb web app getting secrets through a vnet
+  network_acls {
+    bypass                     = "AzureServices"
+    default_action             = "Deny"
+    ip_rules                   = concat(var.key_vault_ips_allow, azurerm_linux_web_app.web_app.possible_outbound_ip_address_list)
+    virtual_network_subnet_ids = var.key_vault_vnet_subnet_ids_allow
+  }
 
   # access policy for the web app to get secrets from the vault
   access_policy {
@@ -127,7 +135,9 @@ resource "azurerm_key_vault" "web_app_vault" {
 }
 
 resource "azurerm_key_vault_secret" "web_app_secret" {
-  name         = "secretsauce"
-  value        = "szechuan"
+  for_each = var.key_vault_secrets
+
+  name         = each.key
+  value        = each.value
   key_vault_id = azurerm_key_vault.web_app_vault.id
 }

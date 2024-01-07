@@ -11,3 +11,7 @@ docker_reg_url       = "<url to docker image registry, e.g. ACR>"
 docker_reg_username  = "<username for docker login>"
 docker_reg_password  = "<password for docker login>"
 healthcheck_endpoint = "<endpoint on web app to use for periodic healthcheck polling>"
+key_vault_ips_allow  = ["<list of allow ips for read-write to key vault>"]
+key_vault_secrets    = {
+  secret_name: "secret_value <map of secrets to load into key vault, key=name, value=value>"
+}

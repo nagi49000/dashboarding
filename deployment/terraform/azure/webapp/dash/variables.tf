@@ -34,7 +34,6 @@ variable "web_app_pricing_plan" {
   description = "Service plan SKU aka pricing plan"
 }
 
-
 variable "web_app_name" {
   type        = string
   description = "Web App Name - used in URI of web app (as the bottom level domain name) and various resource names (so no spaces or special chars)"
@@ -69,4 +68,22 @@ variable "docker_reg_password" {
 variable "healthcheck_endpoint" {
   type        = string
   description = "endpoint on app to use for healthcheck - starts with /"
+}
+
+variable "key_vault_ips_allow" {
+  type        = list(string)
+  default     = []
+  description = "list of ips and/or cidrs for allowing access to key vault"
+}
+
+variable "key_vault_vnet_subnet_ids_allow" {
+  type        = list(string)
+  default     = []
+  description = "list of virtual network subnet ids for allowing access to key vault"
+}
+
+variable "key_vault_secrets" {
+  type        = map(string)
+  default     = {}
+  description = "Secrets as name:value to put in key vault"
 }
