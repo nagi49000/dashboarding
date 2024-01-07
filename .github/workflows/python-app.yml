@@ -21,6 +21,7 @@ jobs:
       run: |
         for terraform_dir in "find . -type f -name 'main.tf' | sed -r 's|/[^/]+$||' |sort |uniq"
         do
+          echo ${terraform_dir}
           cd ${terraform_dir}
           terraform -chdir=${terraform_dir} init
           terraform -chdir=${terraform_dir} fmt --check
