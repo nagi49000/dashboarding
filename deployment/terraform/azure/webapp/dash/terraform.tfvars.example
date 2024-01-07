@@ -1,0 +1,13 @@
+# general azure details
+subscription_id     = "<obtained from 'az account list'>"
+tenant_id           = "<obtained from 'az account list'>"
+creator             = "<your-userid-or-name>"
+resource_group_name = "<pre-existing-resource-group-in-subscription-or-tenancy-to-use>"
+
+# web app details
+web_app_name         = "<name of app. small letters and numbers only>"
+docker_image         = "<docker image name to pull from image registry>"
+docker_reg_url       = "<url to docker image registry, e.g. ACR>"
+docker_reg_username  = "<username for docker login>"
+docker_reg_password  = "<password for docker login>"
+healthcheck_endpoint = "<endpoint on web app to use for periodic healthcheck polling>"

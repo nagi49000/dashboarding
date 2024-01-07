@@ -81,6 +81,7 @@ resource "azurerm_key_vault" "web_app_vault" {
 
   sku_name = "standard"
 
+  # access policy for the web app to get secrets from the vault
   access_policy {
     tenant_id = var.tenant_id
     object_id = azurerm_linux_web_app.web_app.identity[0].principal_id
@@ -95,6 +96,25 @@ resource "azurerm_key_vault" "web_app_vault" {
 
     storage_permissions = [
       "Get",
+    ]
+  }
+
+  # access policy for this entity running terraform to amend secrets in the vault and add a secret
+  access_policy {
+    tenant_id = var.tenant_id
+    object_id = data.azurerm_client_config.current.object_id
+
+    key_permissions = [
+      "Create",
+      "Get",
+    ]
+
+    secret_permissions = [
+      "Set",
+      "Get",
+      "Delete",
+      "Purge",
+      "Recover"
     ]
   }
 
