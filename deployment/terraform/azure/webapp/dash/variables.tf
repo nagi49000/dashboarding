@@ -87,3 +87,9 @@ variable "key_vault_secrets" {
   default     = {}
   description = "Secrets as name:value to put in key vault"
 }
+
+variable "app_env_var_secrets_mount" {
+  type        = map(string)
+  default     = {}
+  description = "environment variables mounted as secrets from the key vault as env_var:secret_name"
+}

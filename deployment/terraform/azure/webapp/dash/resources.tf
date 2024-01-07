@@ -61,10 +61,16 @@ resource "azurerm_linux_web_app" "web_app" {
 
   # no idea why WEBSITES_ENABLE_APP_SERVICE_STORAGE is needed, but inside the
   # container Python module import errors occur without it
-  app_settings = {
-    WEBSITES_ENABLE_APP_SERVICE_STORAGE = false
-    TEST_VAULT                          = "@Microsoft.KeyVault(VaultName=${var.web_app_name}keyvault;SecretName=secretsauce)"
-  }
+  # merge in map of env vars that need to come from key vault
+  app_settings = merge(
+    {
+      WEBSITES_ENABLE_APP_SERVICE_STORAGE = false
+    },
+    {
+      for env_var, secret_name in var.app_env_var_secrets_mount :
+      env_var => "@Microsoft.KeyVault(VaultName=${var.web_app_name}keyvault;SecretName=${secret_name})"
+    }
+  )
 }
 
 data "azurerm_client_config" "current" {}

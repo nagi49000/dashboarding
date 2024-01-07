@@ -13,5 +13,8 @@ docker_reg_password  = "<password for docker login>"
 healthcheck_endpoint = "<endpoint on web app to use for periodic healthcheck polling>"
 key_vault_ips_allow  = ["<list of allow ips for read-write to key vault>"]
 key_vault_secrets    = {
-  secret_name: "secret_value <map of secrets to load into key vault, key=name, value=value>"
+  secret_name: "secret_value <map of secrets to load into key vault, key=secret_name, value=secret_value>"
+}
+app_env_var_secrets_mount = {
+  ENV_VAR : "secret_name <map of the environment variable withing the web app container to the secret, key=env_var, value=secret_name>"
 }
