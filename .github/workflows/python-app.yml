@@ -22,7 +22,7 @@ jobs:
         for terraform_dir in $(find . -type f -name 'main.tf' | sed -r 's|/[^/]+$||' |sort |uniq)
         do
           terraform -chdir=${terraform_dir} init
-          terraform -chdir=${terraform_dir} fmt --check
+          terraform -chdir=${terraform_dir} fmt --check --diff
         done
     - name: docker streamlit build
       working-directory: ./services/streamlit/
