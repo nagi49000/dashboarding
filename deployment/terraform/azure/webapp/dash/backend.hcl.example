@@ -1,0 +1,2 @@
+resource_group_name  = "<name of the resource group containing Blob for tfstate storage>"
+storage_account_name = "<name of the Blob storage account for placing the tfstate>"
