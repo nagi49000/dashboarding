@@ -41,6 +41,21 @@ resource "azurerm_linux_web_app" "web_app" {
       docker_registry_username = var.docker_reg_username
       docker_registry_password = var.docker_reg_password
     }
+
+    dynamic "ip_restriction" {
+      for_each = var.web_app_cidrs_allow
+      content {
+        action     = "Allow"
+        ip_address = ip_restriction.value
+      }
+    }
+    dynamic "scm_ip_restriction" {
+      for_each = var.web_app_cidrs_allow
+      content {
+        action     = "Allow"
+        ip_address = scm_ip_restriction.value
+      }
+    }
   }
 
   logs {

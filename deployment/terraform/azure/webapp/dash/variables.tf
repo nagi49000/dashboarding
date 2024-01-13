@@ -39,6 +39,12 @@ variable "web_app_name" {
   description = "Web App Name - used in URI of web app (as the bottom level domain name) and various resource names (so no spaces or special chars)"
 }
 
+variable "web_app_cidrs_allow" {
+  type        = list(string)
+  default     = []
+  description = "list of CIDRs for allowing access to web app"
+}
+
 variable "docker_image" {
   type        = string
   description = "name of the docker image to use in the web app - without tag"

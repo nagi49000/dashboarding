@@ -6,6 +6,7 @@ resource_group_name = "<pre-existing-resource-group-in-subscription-or-tenancy-t
 
 # web app details
 web_app_name         = "<name of app. small letters and numbers only>"
+web_app_cidrs_allow  = ["<list of allow CIDRs allowed to access app. Empty list will allow access to all IPs>"]
 docker_image         = "<docker image name to pull from image registry>"
 docker_reg_url       = "<url to docker image registry, e.g. ACR>"
 docker_reg_username  = "<username for docker login>"
