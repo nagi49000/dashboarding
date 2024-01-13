@@ -7,12 +7,13 @@ terraform {
     }
   }
 
-  # remove this backend block to save your tfstate locally, rather than in blob
+  # to specify a remote tfstate file in blob, create a backend.hcl file and
+  # init terraform with `terraform init --backend-config=backend.hcl`
+  # to run your tfstate locally, rather than in blob
+  # init terraform with `terraform init --backend=false`
   backend "azurerm" {
-    # these values need to be hard-coded since they are read at the terraform init stage
-    # but may well be different for your setup
-    resource_group_name  = "made-by-terraform-group"
-    storage_account_name = "madebyterraformwithrg"
+    resource_group_name  = "<populate from a backend.hcl file>"
+    storage_account_name = "<populate from a backend.hcl file>"
     container_name       = "tfstate"
     key                  = "dash-web-app.tfstate"
   }
